@@ -30,11 +30,11 @@ CFLAGS += -Iinc -Itmp -ggdb -O0
 all: $(M) $(D) $(S)
 	dune build
 run: $(M) $(D) $(S)
-	dune exec
-cpp: bin/$(MODULE) $(S)
-	$^
+	dune exec src/$(MODULE).exe
 test: $(M) $(D) $(S)
 	dune test
+cpp: bin/$(MODULE) $(S)
+	$^
 
 # format
 .PHONY: format
