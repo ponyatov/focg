@@ -43,3 +43,15 @@ class Window : GUI {
     ~Window();
 };
 /// @}
+
+/// @defgroup skelex skelex
+/// @{
+extern int yylex();
+extern FILE *yyin;
+extern char *yytext;
+extern int yylineno;
+extern char *filename;
+extern int yyparse();
+extern void yyerror(const char *msg);
+#include "focg.parser.hpp"
+/// @}

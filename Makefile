@@ -19,6 +19,9 @@ S += lib/$(MODULE).ini $(wildcard lib/*.s*)
 C += $(wildcard src/*.c*)
 H += $(wildcard inc/*.h*)
 
+CP += tmp/$(MODULE).parser.cpp tmp/$(MODULE).lexer.cpp
+HP += tmp/$(MODULE).parser.hpp
+
 # cfg
 CFLAGS += -Iinc -Itmp -ggdb -O0
 
@@ -39,11 +42,15 @@ format: tmp/format_cpp tmp/format_ml
 tmp/format_cpp: $(C) $(H)
 	$(CF) $? && touch $@
 tmp/format_ml: $(M) $(D) $(S)
-	dune build && dune fmt
+	dune build && dune fmt && touch $@
 
 # rule
 bin/$(MODULE): $(C) $(H) $(CP) $(HP) Makefile
 	$(CXX) $(CFLAGS) -o $@ $(C) $(CP) $(L)
+tmp/$(MODULE).lexer.cpp: src/$(MODULE).lex
+	flex -o $@ $<
+tmp/$(MODULE).parser.cpp: src/$(MODULE).yacc
+	bison -o $@ $<
 
 # doc
 .PHONY: doc
