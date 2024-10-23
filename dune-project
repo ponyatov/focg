@@ -1,0 +1,17 @@
+(lang dune 3.11)
+(name focg)
+(generate_opam_files true)
+(authors     ["Dmitry Ponyatov <dponyatov@gmail.com>"])
+(maintainers ["Dmitry Ponyatov <dponyatov@gmail.com>"])
+(license     "MIT")
+(homepage    "https://gitflic.ru/project/dponyatov/focg")
+(bug_reports "http://t.me/dponyatov")
+(using menhir 2.1)
+(package
+ (name         focg)
+ (synopsis    "Fundamentals of Computer Graphics")
+ (description "low-level graphics workout")
+ (depends      ocaml dune utop ocamlformat ocaml-lsp-server
+               ppx_inline_test menhir)
+ (tags        (graphics GUI SDL))
+)
