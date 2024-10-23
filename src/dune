@@ -1,0 +1,10 @@
+(executable
+ (name focg)
+ (public_name focg)
+ (libraries))
+
+; (library
+;  (name sdlbase)
+;  ; (modules sdlbase)
+; ;  ; (libraries )
+;  )

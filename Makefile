@@ -61,9 +61,11 @@ doc/logo.png: $(HOME)/icons/triangle.png
 .PHONY: install update ref gz
 install: doc ref gz
 	$(MAKE) update
-update:
+update: $(OPAM)
 	sudo apt update
 	sudo apt install -uy `cat apt.txt`
+	$(OPAM) update
+	$(OPAM) install -y . --deps-only
 ref:
 gz:
 
