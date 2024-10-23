@@ -1,0 +1,4 @@
+#use "topfind";;
+(* #require "cli";; *)
+(* open cli;; *)
+(* #install_printer cli.pp;; *)
