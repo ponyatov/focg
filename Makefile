@@ -72,7 +72,7 @@ gz:
 $(OPAM):
 	bash -c "sh <(curl -fsSL https://opam.ocaml.org/install.sh)"
 	$(OPAM) init ; $(OPAM) switch default
-	$(OPAM) install dune ; dune build
+	$(OPAM) install dune
 
 # merge
 MERGE += Makefile README.md apt.txt .gitignore
