@@ -1,7 +1,16 @@
-# tools
+# var
+MODULE = $(notdir $(CURDIR))
+REL    = $(shell git rev-parse --short=4    HEAD)
+BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
+NOW    = $(shell date +%d%m%y)
+
+# dirs
+CWD    = $(CURDIR)
+
+# tool
 CURL   = curl -L -o
 CF     = clang-format -style=file -i
-OPAM   = /home/dponyatov/bin/opam
+OPAM   = $(HOME)/bin/opam
 
 # src
 M += $(wildcard src/*.ml*)
@@ -60,5 +69,36 @@ gz:
 
 $(OPAM):
 	bash -c "sh <(curl -fsSL https://opam.ocaml.org/install.sh)"
-	opam init
-	opam install dune
+	$(OPAM) init ; $(OPAM) switch default
+	$(OPAM) install dune ; dune build
+
+# merge
+MERGE += Makefile README.md apt.txt .gitignore
+MERGE += .clang-format .doxygen
+MERGE += .vscode bin doc lib inc src tmp ref
+MERGE += $(C) $(H) $(M) $(D) $(S) .ocaml*
+
+.PHONY: dev
+dev:
+	git push -v
+	git checkout $@
+	git pull -v
+	git checkout $(USER) -- $(MERGE)
+	$(MAKE) doxy ; git add -f docs
+
+.PHONY: $(USER)
+$(USER):
+	git push -v
+	git checkout $(USER)
+	git pull -v
+
+.PHONY: release
+release:
+	git tag $(NOW)-$(REL)
+	git push -v --tags
+	$(MAKE) $(USER)
+
+ZIP = tmp/$(MODULE)_$(NOW)_$(REL)_$(BRANCH).zip
+zip: $(ZIP)
+$(ZIP):
+	git archive --format zip --output $(ZIP) HEAD
